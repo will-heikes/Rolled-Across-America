@@ -18,12 +18,12 @@ def inl(amt, name, note):
     return f"{name} ({amt}" + (f", {note}" if note else "") + ")"
 
 def SHAPE(extra=""):
-    return ("Roll the dough (1/3 of the batch, about 1 lb) into a 12 x 8 in rectangle. Spread the filling over it, leaving a 1/2-in bare strip along one long edge"
+    return ("Roll the dough (1/3 of the chilled batch, about 2/3 lb) into a 10 x 8 in rectangle, about 1/4 in thick. Spread the filling over it, leaving a 1/2-in bare strip along one long edge"
             + (f". {extra}" if extra else "") +
-            ". Roll up tightly toward the bare edge, cut into 4 rolls (3 in wide), and set them in a parchment-lined 8-inch pan.")
-RISE = "Cover loosely and let rise until noticeably puffy and nearly doubled, about 45-60 min. Rises run faster at altitude, so go by look."
-def BAKE(t=350, mins="20-28"):
-    return f"Bake at {t}{DEG} ({t-25}{DEG} if convection) for {mins} min, until lightly golden and cooked through (190{DEG} in the center). Cool until warm."
+            ". Roll up tightly toward the bare edge, cut into 4 rolls (2 1/2 in wide), and set them in a parchment-lined 8-inch pan.")
+RISE = "Cover with greased plastic wrap and let rise in a warm spot until puffy and nearly doubled, about 45 min (longer straight from the fridge). For a quick proofing box, heat the oven to 350\u00b0F for 3 min, turn it off, and set the pan inside with a pan of boiling water on the rack below."
+def BAKE(t=350, mins="18-24"):
+    return f"If the rolls are proofing in the oven, take them out, then heat the oven to {t}{DEG}. Bake for {mins} min, until golden on top and 190{DEG} in the center. Cool 10 min."
 
 R = {}
 def rec(code, groups, steps, note=None, head="Makes 4 large rolls (one 8-inch pan, 1/3 of a dough batch)."):
@@ -195,7 +195,7 @@ rec("SC", [
  SHAPE(), RISE, BAKE(), VGS, "Top with the brittle shards.",
 ])
 
-SAVB = "Bake at 375" + DEG + " for 22-28 min, until deep golden and 188" + DEG + " in the center. Cool 5 min."
+SAVB = "Bake at 375" + DEG + " for 18-24 min, until deep golden and 190" + DEG + " in the center. Cool 5 min."
 rec("WV", [
  ("FILLING", [I("gb","2 tbsp","butter","melted"), I("garlic","1 small","garlic clove","minced"), I("pep","2 oz","sliced pepperoni (about 30 slices)"), I("mozz","3/4 cup","low-moisture mozzarella","shredded"), I("it","1/4 tsp","Italian seasoning")]),
  ("TOPPING", [I("parm","2 tbsp","Parmesan","grated")]),
@@ -279,7 +279,7 @@ rec("CT", [
  "Simmer {tom} with {garlic} and {ore} until very thick, about 8 min. Cool.",
  SHAPE("Use the tomato as the filling and sprinkle {pec} and {mozz} over it"), RISE,
  "Brush with {oil} and sprinkle {pec2}.",
- f"Bake at 400{DEG} for 20-25 min, until the edges are charred in spots and the center reaches 188{DEG}.",
+ f"Bake at 400{DEG} for 16-20 min, until the edges are charred in spots and the center reaches 190{DEG}.",
 ], "SAVORY, NO CINNAMON")
 
 rec("GA", [
@@ -532,7 +532,7 @@ rec("OK", [
 ],[
  "Melt {gb} with {gs} and {cs}, pour into the 8-inch pan, and scatter {ph} over it.",
  FS,
- "Roll the dough (1/3 of the batch) into a 12 x 9 in rectangle, spread the filling, and sprinkle {pec} over it. Roll up tightly, cut into 4, and set the rolls on top of the pecan goo.",
+ "Roll the chilled dough (1/3 of the batch) into a 10 x 8 in rectangle, spread the filling, and sprinkle {pec} over it. Roll up tightly, cut into 4, and set the rolls on top of the pecan goo.",
  RISE, BAKE(),
  "Right away, run a knife around the edge and turn the pan out onto a plate so the pecan goo ends up on top.",
 ])
@@ -631,7 +631,7 @@ rec("AS", [
 ],[
  FS, SHAPE(), RISE,
  "Simmer {cm}, {cs} and {salt} for 3-4 min, until the sugar dissolves. Pour it into the pan around the risen rolls.",
- f"Bake at 350{DEG} for 30-35 min, until the rolls are golden and the sauce is bubbling and caramelized at the edges. Spoon the sauce over the rolls to serve.",
+ f"Bake at 350{DEG} for 25-30 min, until the rolls are golden and the sauce is bubbling and caramelized at the edges. Spoon the sauce over the rolls to serve.",
 ])
 
 rec("MP", [
@@ -702,42 +702,40 @@ rec("BOOK", [
 assert len(R) == 59, len(R)
 
 DOUGHR = {
-"Base dough": """BASE DOUGH: makes 12 large rolls (3 pans of 4)
-Cheryl's Famous Cinnamon Rolls dough, from Mel's Kitchen Cafe. A sponge method, with no set kneading time.
+"Base dough": """BASE DOUGH: makes 12 rolls (3 pans of 4)
+Best Cinnamon Rolls dough, from Cup of Yum (Whitney Jenkins). The dough must chill at least 2 hours, and up to 2 days.
 
 INGREDIENTS
-Sponge
-1/2 cup granulated sugar
-1/2 cup neutral oil
-2 cups milk (2% works), scalded and cooled until warm
-4 cups all-purpose flour (unbleached)
-1 tbsp instant yeast
-
-Dough
-3/4 cup all-purpose flour
-1/2 tsp baking powder
-1/2 tsp baking soda
-1 1/2 tsp salt
+1 cup whole milk
+1 tbsp active dry yeast
+5 tbsp granulated sugar
+2 large eggs
+3 1/4 cups all-purpose flour, spooned and leveled
+1 tsp kosher salt
+1/2 cup (1 stick) butter, very soft
 
 STEPS
-1. Make the sponge: stir the sugar (1/2 cup) and oil (1/2 cup) together in the mixer bowl. Add the scalded milk (2 cups) and mix. Let it sit about 15 min, until warm but not hot.
-2. Add the flour (4 cups) and sprinkle the instant yeast (1 tbsp) over the top. Mix until no dry streaks remain. It will be loose and wet. Cover and let it rise until puffy and doubled, 45-60 min.
-3. Make the dough: add the flour (3/4 cup), baking powder (1/2 tsp), baking soda (1/2 tsp) and salt (1 1/2 tsp). Mix until smooth and cohesive. There's no set kneading time. Add a little more flour only if it's too sticky to handle; the dough should stay slightly sticky.
-4. Move to a lightly greased bowl, cover, and let rise until doubled, about 1 hour. At altitude, check at 40 min.
-5. Divide into 3 equal pieces (about 1 lb each), one per pan, and follow each roll's recipe. (For one big batch of 12, roll the whole dough to 18 x 12 in and bake on a parchment-lined half sheet pan at 350\u00b0F for 18-25 min.)
+1. Warm the milk (1 cup) to 105-110\u00b0F, about bath-water warm. Stir in the yeast (1 tbsp) and sugar (5 tbsp) and wait 5 min. If it isn't bubbly, the yeast is dead, so start over.
+2. Whisk the eggs (2) into the yeast mixture.
+3. In the stand mixer bowl, combine the flour (3 1/4 cups) and kosher salt (1 tsp). Add the wet ingredients and beat with the paddle for about 1 min, scraping the bowl.
+4. On low to medium-low, add the very soft butter (1/2 cup) one tablespoon at a time, letting each piece mix in before adding the next.
+5. Beat on medium-low for 5 min more. The dough will be very wet and sticky and won't clean the bowl, but it should form a loose ball. There's no separate kneading.
+6. Move to a greased bowl, cover, and refrigerate at least 2 hours and up to 2 days. Chilling isn't optional: the dough has to be cold to roll.
+7. Divide the chilled dough into 3 equal pieces (about 2/3 lb each), one per pan. Knead each a few times on a well-floured surface, then follow each roll's recipe.
 
-Using active dry yeast: proof it first in a little warm water with a pinch of the sugar until bubbly, then add it to the sponge.""",
+OPTIONAL PAN SAUCE (the original's gooey bottom), per 8-inch pan: stir barely melted butter (4 tsp), cream (4 tsp) and brown sugar (5 tsp) and spread it over the bottom of the pan before adding the rolls. Skip it for rolls that already have a pan topping (Pecan Pie, Sugar Cream, Panipopo) and for the savory rolls.
+
+Make-ahead: shape the rolls, cover, and refrigerate overnight, then proof and bake in the morning.""",
 "Cocoa dough": """COCOA DOUGH (chocolate bake): the base dough with these changes
-1. In the sponge, use 3 1/2 cups flour plus 1/2 cup (45 g) Dutch-process cocoa powder in place of the 4 cups flour.
-2. Increase the sugar to 1/2 cup + 2 tbsp.
+1. Use 3 cups flour plus 1/4 cup (25 g) Dutch-process cocoa powder in place of the 3 1/4 cups flour.
+2. Increase the sugar to 6 tbsp.
 Everything else is the same.""",
 "Sourdough": """SOURDOUGH (sourdough bake): the base dough with these changes
-1. Start the day before you bake.
-2. Leave out the yeast (or keep 1 tsp as insurance).
-3. In the sponge, use 1 1/2 cups milk and 3 1/2 cups flour, and stir in 1 cup (240 g) active, bubbly starter with the milk.
-4. Let the sponge ferment until bubbly and doubled, 3-5 hours at room temperature, or overnight in the fridge.
-5. Finish the dough as usual (the baking soda tames some of the tang), then rise until doubled, 2-3 hours.
-6. After shaping, let the rolls rise 1 1/2-2 hours.""",
+1. Leave out the yeast, and skip the 5-minute bubble test in step 1.
+2. Use 3/4 cup milk and add 1/2 cup (120 g) active, bubbly starter with the eggs.
+3. Use 3 cups flour instead of 3 1/4 cups.
+4. After mixing, let the dough sit at room temperature 3-4 hours, until puffy, then refrigerate overnight.
+5. After shaping, let the rolls rise 1 1/2-2 hours.""",
 }
 
 s, n = re.subn(r'const RECIPE=\{.*?\};\nconst DOUGH_RECIPE=\{.*?\};\n',
