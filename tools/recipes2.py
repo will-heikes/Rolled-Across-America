@@ -18,17 +18,17 @@ def inl(amt, name, note):
     return f"{name} ({amt}" + (f", {note}" if note else "") + ")"
 
 def SHAPE(extra=""):
-    return ("Roll the dough (1/3 of the batch, about 1 1/4 lb) into a 12 x 9 in rectangle. Spread the filling over it, leaving a 1/2-in bare strip along one long edge"
+    return ("Roll the dough (1/3 of the batch, about 1 lb) into a 12 x 8 in rectangle. Spread the filling over it, leaving a 1/2-in bare strip along one long edge"
             + (f". {extra}" if extra else "") +
             ". Roll up tightly toward the bare edge, cut into 4 rolls (3 in wide), and set them in a parchment-lined 8-inch pan.")
-RISE = "Cover and let rise until about doubled, about 1 hour."
-def BAKE(t=350, mins="25-35"):
-    return f"Bake at {t}{DEG} (metal pan; 325{DEG} for glass) for {mins} min, until browned and 188{DEG} in the center of the rolls. Cool 10 min."
+RISE = "Cover loosely and let rise until noticeably puffy and nearly doubled, about 45-60 min. Rises run faster at altitude, so go by look."
+def BAKE(t=350, mins="20-28"):
+    return f"Bake at {t}{DEG} ({t-25}{DEG} if convection) for {mins} min, until lightly golden and cooked through (190{DEG} in the center). Cool until warm."
 
 R = {}
 def rec(code, groups, steps, note=None, head="Makes 4 large rolls (one 8-inch pan, 1/3 of a dough batch)."):
     items = {}
-    out = head + "\nAdjusted for high altitude (about 5,000-7,000 ft).\n"
+    out = head + "\n"
     if note: out += note + "\n"
     out += "\nINGREDIENTS"
     for title, lst in groups:
@@ -698,42 +698,45 @@ rec("BOOK", [
  "Bake at 350\u00b0F (metal pan) for 25-35 min, until browned and 188\u00b0F in the center of the middle roll.",
  "While the rolls bake, beat {ps}, {isalt}, {iv}, {ib} and 1 tbsp of the {im} until spreadable, adding the rest of the milk if needed.",
  "Right out of the oven, spread on about half the icing so it melts into the rolls. Once they cool, add the rest and top with {fl} just before serving.",
-], "Book club special for Saturday, November 21. Make the dough Friday night.", head="Makes 9 rolls (one 8-inch square pan). Dough included: a half batch of the base dough.")
+], "Book club special for Saturday, November 21. Make the dough Friday night.", head="Makes 9 rolls (one 8-inch square pan). Dough included.")
 assert len(R) == 59, len(R)
 
 DOUGHR = {
-"Base dough": """BASE DOUGH (high altitude): makes 12 jumbo rolls (3 pans of 4)
-Adapted from University of Wyoming Extension's High Altitude Cinnamon Rolls, tested at 7,200 ft.
+"Base dough": """BASE DOUGH: makes 12 large rolls (3 pans of 4)
+Cheryl's Famous Cinnamon Rolls dough, from Mel's Kitchen Cafe. A sponge method, with no set kneading time.
 
 INGREDIENTS
-3/4 cup milk
-1 1/8 cups water
-10 tbsp butter, cut into chunks
-6-6 1/2 cups all-purpose flour, plus extra for dusting
-1 tsp salt
-4 tsp active dry yeast (at lower elevations, use 2 packets)
-3/4 cup sugar
-2 large eggs
+Sponge
+1/2 cup granulated sugar
+1/2 cup neutral oil
+2 cups milk (2% works), scalded and cooled until warm
+4 cups all-purpose flour (unbleached)
+1 tbsp instant yeast
+
+Dough
+3/4 cup all-purpose flour
+1/2 tsp baking powder
+1/2 tsp baking soda
+1 1/2 tsp salt
 
 STEPS
-1. Heat the milk (3/4 cup), water (1 1/8 cups) and butter (10 tbsp) to 115-120\u00b0F. The butter doesn't need to melt.
-2. In the mixing bowl, combine 3 cups of the flour with the salt (1 tsp), yeast (4 tsp) and sugar (3/4 cup).
-3. Add the milk mixture and beat well. Beat in the eggs (2).
-4. Keep beating, adding the rest of the flour (3-3 1/2 cups more) as needed, until a soft dough forms.
-5. Turn the dough onto a floured surface and knead until smooth and satiny, about 5 min.
-6. Cover and let rise until doubled, about 1 1/2-2 hours.
-7. Divide into 3 equal pieces (about 1 1/4 lb each), one per pan, and follow each roll's recipe.""",
+1. Make the sponge: stir the sugar (1/2 cup) and oil (1/2 cup) together in the mixer bowl. Add the scalded milk (2 cups) and mix. Let it sit about 15 min, until warm but not hot.
+2. Add the flour (4 cups) and sprinkle the instant yeast (1 tbsp) over the top. Mix until no dry streaks remain. It will be loose and wet. Cover and let it rise until puffy and doubled, 45-60 min.
+3. Make the dough: add the flour (3/4 cup), baking powder (1/2 tsp), baking soda (1/2 tsp) and salt (1 1/2 tsp). Mix until smooth and cohesive. There's no set kneading time. Add a little more flour only if it's too sticky to handle; the dough should stay slightly sticky.
+4. Move to a lightly greased bowl, cover, and let rise until doubled, about 1 hour. At altitude, check at 40 min.
+5. Divide into 3 equal pieces (about 1 lb each), one per pan, and follow each roll's recipe. (For one big batch of 12, roll the whole dough to 18 x 12 in and bake on a parchment-lined half sheet pan at 350\u00b0F for 18-25 min.)
+
+Using active dry yeast: proof it first in a little warm water with a pinch of the sugar until bubbly, then add it to the sponge.""",
 "Cocoa dough": """COCOA DOUGH (chocolate bake): the base dough with these changes
-1. Replace 1/2 cup of the flour with 1/2 cup (45 g) Dutch-process cocoa powder, added with the first 3 cups of flour.
-2. Increase the sugar to 3/4 cup + 2 tbsp.
-3. Increase the milk to 3/4 cup + 2 tbsp.
+1. In the sponge, use 3 1/2 cups flour plus 1/2 cup (45 g) Dutch-process cocoa powder in place of the 4 cups flour.
+2. Increase the sugar to 1/2 cup + 2 tbsp.
 Everything else is the same.""",
 "Sourdough": """SOURDOUGH (sourdough bake): the base dough with these changes
 1. Start the day before you bake.
 2. Leave out the yeast (or keep 1 tsp as insurance).
-3. Add 1 cup (240 g) active, bubbly starter with the milk mixture, and cut the water to 1/2 cup + 2 tbsp.
-4. Use about 5 1/2 cups flour in total, adding it until a soft dough forms.
-5. Bulk rise 4-6 hours at room temperature, or overnight in the fridge.
+3. In the sponge, use 1 1/2 cups milk and 3 1/2 cups flour, and stir in 1 cup (240 g) active, bubbly starter with the milk.
+4. Let the sponge ferment until bubbly and doubled, 3-5 hours at room temperature, or overnight in the fridge.
+5. Finish the dough as usual (the baking soda tames some of the tang), then rise until doubled, 2-3 hours.
 6. After shaping, let the rolls rise 1 1/2-2 hours.""",
 }
 

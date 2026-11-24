@@ -32,4 +32,4 @@ python3 tools/rebuild.py
 
 That regenerates the recipes, shopping lists and history data inside `planner.html` and rebuilds `index.html`.
 
-The base dough is adapted from University of Wyoming Extension's *High Altitude Cinnamon Rolls*, tested at 7,200 ft.
+The base dough is Cheryl's Famous Cinnamon Rolls from [Mel's Kitchen Cafe](https://www.melskitchencafe.com/the-best-cinnamon-rolls).
