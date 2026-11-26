@@ -298,7 +298,7 @@ rec(A("AR","Pink Tomato Jam"), [
  ("ICING", CCI),
 ],[
  "Simmer {tom}, {ts}, {lj}, {gin} and {tc}, stirring now and then, until thick and jammy, 25-30 min. Cool.",
- FS, SHAPE("Spread about 1/3 cup of the tomato jam over it"), RISE, BAKE(), CCIS,
+ FS, SHAPE("Spread about 1/2 cup of the tomato jam over it"), RISE, BAKE(), CCIS,
 ], "LIGHT CINNAMON")
 
 rec(A("AR","Rice Pudding"), [

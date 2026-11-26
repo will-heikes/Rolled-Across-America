@@ -18,15 +18,61 @@ def inl(amt, name, note):
     return f"{name} ({amt}" + (f", {note}" if note else "") + ")"
 
 def SHAPE(extra=""):
-    return ("Roll the dough (1/3 of the chilled batch, about 2/3 lb) into a 10 x 8 in rectangle, about 1/4 in thick. Spread the filling over it, leaving a 1/2-in bare strip along one long edge"
+    return ("Roll the dough (1/3 of the chilled batch, about 1 lb) into a 12 x 9 in rectangle, about 1/4 in thick. Spread the filling over it, leaving a 1/2-in bare strip along one long edge"
             + (f". {extra}" if extra else "") +
-            ". Roll up tightly toward the bare edge, cut into 4 rolls (2 1/2 in wide), and set them in a parchment-lined 8-inch pan.")
+            ". Roll up tightly toward the bare edge, cut into 4 rolls (3 in wide), and set them in a parchment-lined 8-inch pan.")
 RISE = "Cover with greased plastic wrap and let rise in a warm spot until puffy and nearly doubled, about 45 min (longer straight from the fridge). For a quick proofing box, heat the oven to 350\u00b0F for 3 min, turn it off, and set the pan inside with a pan of boiling water on the rack below."
-def BAKE(t=350, mins="18-24"):
+def BAKE(t=350, mins="20-26"):
     return f"If the rolls are proofing in the oven, take them out, then heat the oven to {t}{DEG}. Bake for {mins} min, until golden on top and 190{DEG} in the center. Cool 10 min."
 
 R = {}
+
+from fractions import Fraction as _F
+INNER = {"FILLING","APPLE PIE FILLING","APRICOT FILLING","LANE FILLING","CHILI BUTTER","APPLE","BANANAS","BERRIES","BLUEBERRIES","COMPOTE","CORN","CRANBERRY","JUNEBERRIES","MANGO","PEACHES","PINEAPPLE","RICE PUDDING","ROASTED STRAWBERRIES","TOMATO JAM","CHEESECAKE SWIRL"}
+FILL_SCALE = _F(3, 2)
+def _num(t):
+    t = t.strip()
+    if " " in t:
+        a, b = t.split(" ", 1); return _F(a) + _F(b)
+    return _F(t)
+def _fmt(q, denoms=(2, 4)):
+    w = int(q); f = q - w
+    best = min((_F(round(f * d), d) for d in denoms), key=lambda x: abs(x - f))
+    if best == 1: w, best = w + 1, _F(0)
+    return ((str(w) if w else "") + (" " if w and best else "") + (str(best) if best else "")) or "0"
+def _vol(tsp, unit):
+    # keep the original unit family, moving up when it gets large
+    if unit == "tsp" and tsp < 3: return _fmt(tsp) + " tsp"
+    if unit in ("tsp", "tbsp") and tsp < 24: return _fmt(tsp / 3) + " tbsp"
+    cups = tsp / 48
+    for d in (4, 3):
+        q = _F(round(cups * d), d)
+        if abs(q - cups) * 48 < _F(1, 2): return _fmt(q, (d,)) + (" cups" if q > 1 else " cup")
+    q = _F(int(cups * 4), 4); rest = tsp - q * 48
+    return (_fmt(q, (4,)) + " cup" if q else "") + (" + " if q else "") + _fmt(rest / 3) + " tbsp"
+TSP = {"tsp": 1, "tbsp": 3, "cup": 48, "cups": 48}
+def scale_amt(amt):
+    if not amt or amt == "pinch": return amt
+    m = re.match(r'^([\d/ ]+?)(?:-([\d/ ]+?))?\s+(tsp|tbsp|cups?|oz)\b(.*)$', amt)
+    if m:
+        lo, hi, u, rest = m.group(1), m.group(2), m.group(3), m.group(4)
+        if u == "oz":
+            f = lambda x: _fmt(_num(x) * FILL_SCALE) 
+            return f(lo) + ("-" + f(hi) if hi else "") + " oz" + rest
+        f = lambda x: _vol(_num(x) * FILL_SCALE * TSP[u], u)
+        if hi:
+            a, b = f(lo), f(hi); ua = a.split()[-1]
+            return (a.rsplit(" ", 1)[0] if b.endswith(ua) else a) + "-" + b + rest
+        return f(lo) + rest
+    m = re.match(r'^(\d+)(\s.*)?$', amt)
+    if m:
+        n = int(m.group(1)) * FILL_SCALE
+        return str(int(n) if n == int(n) else int(n) + 1) + (m.group(2) or "")
+    return amt
+
 def rec(code, groups, steps, note=None, head="Makes 4 large rolls (one 8-inch pan, 1/3 of a dough batch)."):
+    if code != "BOOK":
+        groups = [(t, [(k, (scale_amt(a) if (t in INNER and n != "zest") else a), n, nt) for k, a, n, nt in l]) for t, l in groups]
     items = {}
     out = head + "\n"
     if note: out += note + "\n"
@@ -257,7 +303,7 @@ rec("DE", [
  ("ICING", CCI),
  ("TOPPING", [I("fd","2 tbsp","freeze-dried strawberries","crushed to a powder")]),
 ],[
- f"Toss {{str}} with {{ss}} and roast at 400{DEG} for 20 min. Cool and mash; you'll use about 1/3 cup.",
+ f"Toss {{str}} with {{ss}} and roast at 400{DEG} for 20 min. Cool and mash; you'll use about 1/2 cup.",
  FS, SHAPE("Spread the mashed strawberries over it"), RISE, BAKE(), CCIS, "Dust with {fd}.",
 ], "LIGHT CINNAMON")
 
@@ -323,7 +369,7 @@ rec("MI", [
  ("TOPPING", [I("sa","2 tbsp","sliced almonds","toasted")]),
 ],[
  "Cook {ch}, {cs}, {cc} and {lj} until thick, 4-5 min. Cool.",
- FS, SHAPE("Spread about 1/3 cup of the compote over it"), RISE, BAKE(),
+ FS, SHAPE("Spread about 1/2 cup of the compote over it"), RISE, BAKE(),
  "Whisk {ps}, {gm} and {alm}, drizzle over the rolls, and top with {sa}.",
 ])
 
@@ -345,7 +391,7 @@ rec("NE", [
  ("ICING", CCI),
 ],[
  "Simmer {apr} with {aw} and {as} until soft, about 10 min, then blend smooth. Cool.",
- FS, SHAPE("Spread about 1/3 cup of the apricot over it"), RISE,
+ FS, SHAPE("Spread about 1/2 cup of the apricot over it"), RISE,
  "Rub {sf}, {ss} and {sb} into crumbs and sprinkle over the risen rolls.",
  BAKE(), CCIS,
 ])
@@ -532,7 +578,7 @@ rec("OK", [
 ],[
  "Melt {gb} with {gs} and {cs}, pour into the 8-inch pan, and scatter {ph} over it.",
  FS,
- "Roll the chilled dough (1/3 of the batch) into a 10 x 8 in rectangle, spread the filling, and sprinkle {pec} over it. Roll up tightly, cut into 4, and set the rolls on top of the pecan goo.",
+ "Roll the chilled dough (1/3 of the batch) into a 12 x 9 in rectangle, spread the filling, and sprinkle {pec} over it. Roll up tightly, cut into 4, and set the rolls on top of the pecan goo.",
  RISE, BAKE(),
  "Right away, run a knife around the edge and turn the pan out onto a plate so the pecan goo ends up on top.",
 ])
@@ -702,38 +748,38 @@ rec("BOOK", [
 assert len(R) == 59, len(R)
 
 DOUGHR = {
-"Base dough": """BASE DOUGH: makes 12 rolls (3 pans of 4)
-Best Cinnamon Rolls dough, from Cup of Yum (Whitney Jenkins). The dough must chill at least 2 hours, and up to 2 days.
+"Base dough": """BASE DOUGH: makes 12 large rolls (3 pans of 4)
+Best Cinnamon Rolls dough from Cup of Yum (Whitney Jenkins), made as a 1 1/2 batch: one original batch only fills 2 pans. The dough must chill at least 2 hours, and up to 2 days.
 
 INGREDIENTS
-1 cup whole milk
-1 tbsp active dry yeast
-5 tbsp granulated sugar
-2 large eggs
-3 1/4 cups all-purpose flour, spooned and leveled
-1 tsp kosher salt
-1/2 cup (1 stick) butter, very soft
+1 1/2 cups whole milk
+1 1/2 tbsp active dry yeast
+7 1/2 tbsp granulated sugar (1/2 cup minus 1/2 tbsp)
+3 large eggs
+4 7/8 cups all-purpose flour (4 3/4 cups + 2 tbsp), spooned and leveled
+1 1/2 tsp kosher salt
+3/4 cup (1 1/2 sticks) butter, very soft
 
 STEPS
-1. Warm the milk (1 cup) to 105-110\u00b0F, about bath-water warm. Stir in the yeast (1 tbsp) and sugar (5 tbsp) and wait 5 min. If it isn't bubbly, the yeast is dead, so start over.
-2. Whisk the eggs (2) into the yeast mixture.
-3. In the stand mixer bowl, combine the flour (3 1/4 cups) and kosher salt (1 tsp). Add the wet ingredients and beat with the paddle for about 1 min, scraping the bowl.
-4. On low to medium-low, add the very soft butter (1/2 cup) one tablespoon at a time, letting each piece mix in before adding the next.
+1. Warm the milk (1 1/2 cups) to 105-110\u00b0F, about bath-water warm. Stir in the yeast (1 1/2 tbsp) and sugar (7 1/2 tbsp) and wait 5 min. If it isn't bubbly, the yeast is dead, so start over.
+2. Whisk the eggs (3) into the yeast mixture.
+3. In the stand mixer bowl, combine the flour (4 7/8 cups) and kosher salt (1 1/2 tsp). Add the wet ingredients and beat with the paddle for about 1 min, scraping the bowl.
+4. On low to medium-low, add the very soft butter (3/4 cup) one tablespoon at a time, letting each piece mix in before adding the next.
 5. Beat on medium-low for 5 min more. The dough will be very wet and sticky and won't clean the bowl, but it should form a loose ball. There's no separate kneading.
 6. Move to a greased bowl, cover, and refrigerate at least 2 hours and up to 2 days. Chilling isn't optional: the dough has to be cold to roll.
-7. Divide the chilled dough into 3 equal pieces (about 2/3 lb each), one per pan. Knead each a few times on a well-floured surface, then follow each roll's recipe.
+7. Divide the chilled dough into 3 equal pieces (about 1 lb each), one per pan. Knead each a few times on a well-floured surface, then follow each roll's recipe.
 
-OPTIONAL PAN SAUCE (the original's gooey bottom), per 8-inch pan: stir barely melted butter (4 tsp), cream (4 tsp) and brown sugar (5 tsp) and spread it over the bottom of the pan before adding the rolls. Skip it for rolls that already have a pan topping (Pecan Pie, Sugar Cream, Panipopo) and for the savory rolls.
+OPTIONAL PAN SAUCE (the original's gooey bottom), per 8-inch pan: stir barely melted butter (2 tbsp), cream (2 tbsp) and brown sugar (2 1/2 tbsp) and spread it over the bottom of the pan before adding the rolls. Skip it for rolls that already have a pan topping (Pecan Pie, Sugar Cream, Panipopo) and for the savory rolls.
 
 Make-ahead: shape the rolls, cover, and refrigerate overnight, then proof and bake in the morning.""",
 "Cocoa dough": """COCOA DOUGH (chocolate bake): the base dough with these changes
-1. Use 3 cups flour plus 1/4 cup (25 g) Dutch-process cocoa powder in place of the 3 1/4 cups flour.
-2. Increase the sugar to 6 tbsp.
+1. Use 4 1/2 cups flour plus 1/3 cup (30 g) Dutch-process cocoa powder in place of the 4 7/8 cups flour.
+2. Increase the sugar to 1/2 cup + 1 tbsp.
 Everything else is the same.""",
 "Sourdough": """SOURDOUGH (sourdough bake): the base dough with these changes
 1. Leave out the yeast, and skip the 5-minute bubble test in step 1.
-2. Use 3/4 cup milk and add 1/2 cup (120 g) active, bubbly starter with the eggs.
-3. Use 3 cups flour instead of 3 1/4 cups.
+2. Use 1 cup + 2 tbsp milk and add 3/4 cup (180 g) active, bubbly starter with the eggs.
+3. Use 4 1/2 cups flour instead of 4 7/8 cups.
 4. After mixing, let the dough sit at room temperature 3-4 hours, until puffy, then refrigerate overnight.
 5. After shaping, let the rolls rise 1 1/2-2 hours.""",
 }
