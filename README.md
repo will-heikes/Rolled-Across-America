@@ -32,4 +32,4 @@ python3 tools/rebuild.py
 
 That regenerates the recipes, shopping lists and history data inside `planner.html` and rebuilds `index.html`.
 
-The base dough is adapted from University of Wyoming Extension's *High Altitude Cinnamon Rolls*, tested at 7,200 ft.
+The base dough is the Best Cinnamon Rolls dough from [Cup of Yum](https://cupofyum.com/recipes/best-cinnamon-rolls-recipe-with-the-best-cinnamon-roll-icing-216154).
